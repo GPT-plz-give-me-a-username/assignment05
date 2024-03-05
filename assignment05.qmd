@@ -1,0 +1,16 @@
+---
+title: "Data Science for Public Policy"
+subtitle: "Assignment 05"
+author: "Ruiyang Zhang - rz326"
+execute:
+  warning: false
+format:
+  html:
+    embed-resources: true
+---
+
+```{r}
+# Load in libraries
+library(tidyverse)
+library(purrr)
+```
