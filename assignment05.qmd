@@ -9,8 +9,116 @@ format:
     embed-resources: true
 ---
 
+## Libraries
+
 ```{r}
 # Load in libraries
 library(tidyverse)
 library(purrr)
+library(stringr)
+library(lubridate)
+library(sf)
+library(here)
+library(patchwork)
+```
+
+## Data loading & cleaning
+
+```{r}
+crimes <- read_csv(
+  "data/crimes-reduced.csv", 
+  col_types = cols(
+    Latitude=col_character(), 
+    Longitude=col_character()
+    )
+  )
+
+names(crimes) <- names(crimes) %>% 
+  str_to_lower() %>% 
+  str_replace_all("\\s","_")
+
+```
+
+## Filter the data to homicides within ten years of today
+
+```{r}
+crimes_lim <- crimes %>% 
+  mutate(date=mdy_hms(crimes$date)) %>% 
+  filter(
+    !is.na(latitude),
+    !is.na(longitude),
+    year(date) >= year(Sys.time()) - 10,
+    primary_type == "HOMICIDE"
+    )
+```
+
+## Convert Longitude and Latitude to Points Geometry
+
+```{r}
+crimes_lim <- crimes_lim %>% 
+  st_as_sf(
+    coords = c("longitude", "latitude"),
+    remove=F
+    ) %>%
+  st_set_crs(value = 4326) 
+
+crimes_lim %>% 
+ggplot()+
+  geom_sf(
+    aes(color=arrest),
+    alpha=0.3
+    )
+
+```
+
+## Load Census Tracts
+
+```{r}
+map_file <- here(
+  "data/geo_export_f93d223f-234c-4780-a277-5927903cd9ce.shp"
+  )
+
+chi_map <- st_read(map_file, quiet=T) %>%
+  st_transform(4326) %>% 
+  select(geoid10, geometry)
+
+```
+
+## Spatial Join
+
+```{r}
+joint <- st_join(crimes_lim, chi_map) %>% 
+  st_set_geometry(NULL)
+
+chicago_merged_agg <- joint %>%
+  filter(!is.na(arrest)) %>% 
+  group_by(geoid10) %>% 
+  summarise(
+    count=n(),
+    mean=mean(arrest)
+      )
+
+chicago_merged_agg <- left_join(
+  chicago_merged_agg,chi_map,
+  by="geoid10"
+  ) %>%
+  st_as_sf()
+
+```
+
+## Create Choropleth
+
+```{r}
+count_graph <- chicago_merged_agg %>% 
+  ggplot()+
+  geom_sf(aes(fill=count),color="white",size=0.1)+
+  theme_void()
+  
+arr_rate_graph <- chicago_merged_agg %>% 
+  ggplot()+
+  geom_sf(aes(fill=mean),color="white",size=0.1)+
+  theme_void()
+
+count_graph + arr_rate_graph
+
 ```

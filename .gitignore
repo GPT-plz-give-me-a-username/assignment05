@@ -2,7 +2,7 @@
 .env
 
 #data path
-/data
+/data/
 
 # History files
 .Rhistory
@@ -51,3 +51,4 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
+.Rproj.user
