@@ -20,6 +20,7 @@ library(lubridate)
 library(sf)
 library(here)
 library(patchwork)
+library(tidycensus)
 ```
 
 ## Data loading & cleaning
@@ -88,7 +89,7 @@ chi_map <- st_read(map_file, quiet=T) %>%
 
 ```{r}
 joint <- st_join(crimes_lim, chi_map) %>% 
-  st_set_geometry(NULL)
+  st_drop_geometry()
 
 chicago_merged_agg <- joint %>%
   filter(!is.na(arrest)) %>% 
@@ -122,3 +123,96 @@ arr_rate_graph <- chicago_merged_agg %>%
 count_graph + arr_rate_graph
 
 ```
+
+## Iterating API pulls and map creation
+### Create a function to get data from ACS and create a choropleth map
+```{r}
+#' Get data from ACS and create a choropleth map by Tract
+#'
+#' @param numeric_year 
+#' @param census_variable_code 
+#' @param variable_name 
+#' @param state_fips 
+#' @param county_fips 
+#'
+#' @return a choropleth map
+#' @export
+#'
+#' @examples
+data_sfplot_byTract <- function(
+    numeric_year,
+    census_variable_code,
+    variable_name,
+    state_fips,
+    county_fips){
+  
+  #turn into characters
+  census_variable_code <- as.character(census_variable_code)
+  variable_name <- as.character(variable_name)
+  state_fips <- as.character(state_fips)
+  county_fips <- as.character(county_fips)
+  
+  #get data
+  data <- get_acs(
+    geography = "tract",
+    variables = census_variable_code,
+    state = state_fips,
+    county = county_fips,
+    geometry = T,
+    year = numeric_year
+          )
+  
+  # have a readable map title
+  split_str <- str_split(data$NAME,",")
+  state_name <- split_str[[1]][3]
+  county_name <- split_str[[1]][2]
+
+  title_name = paste0(
+    variable_name,
+    " by Tract in", 
+    county_name,
+    ",",
+    state_name)
+  
+  #create a plot
+  plot <- data %>% 
+    ggplot(aes(fill=estimate))+
+    geom_sf()+
+    labs(
+      title=title_name,
+      fill=variable_name)
+  
+  # save the plot
+  file_name <- paste0("images/",title_name,".jpg")
+  ggsave(file_name,plot=plot)
+  
+  Sys.sleep(0.5)
+}
+
+```
+
+## Iteration
+```{r}
+# create vectors
+iteration_df <- data.frame(
+  numeric_year = c(2020,2020,2020,2020,2020),
+  census_variable_code = c(
+    "B19013_001",
+    "B19013_001",
+    "B19013_001",
+    "B19013_001",
+    "B19013_001"),
+  variable_name = c(
+    "Median Household Income in 2019",
+    "Median Household Income in 2019",
+    "Median Household Income in 2019",
+    "Median Household Income in 2019",
+    "Median Household Income in 2019"),
+  state_fips = c("51","51","51","51","51"),
+  county_fips = c("013", "510", "610","710","730"))
+
+pmap_df(iteration_df, .f = data_sfplot_byTract)
+
+```
+
+
