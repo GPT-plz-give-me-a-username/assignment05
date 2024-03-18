@@ -51,6 +51,7 @@ crimes_lim <- crimes %>%
     year(date) >= year(Sys.time()) - 10,
     primary_type == "HOMICIDE"
     )
+
 ```
 
 ## Convert Longitude and Latitude to Points Geometry
@@ -100,7 +101,8 @@ chicago_merged_agg <- joint %>%
       )
 
 chicago_merged_agg <- left_join(
-  chicago_merged_agg,chi_map,
+  chicago_merged_agg,
+  chi_map,
   by="geoid10"
   ) %>%
   st_as_sf()
@@ -112,12 +114,20 @@ chicago_merged_agg <- left_join(
 ```{r}
 count_graph <- chicago_merged_agg %>% 
   ggplot()+
-  geom_sf(aes(fill=count),color="white",size=0.1)+
-  theme_void()
+  geom_sf(
+    aes(fill=count),
+    color="white",
+    size=0.1
+    )+
+  theme_void() 
   
 arr_rate_graph <- chicago_merged_agg %>% 
   ggplot()+
-  geom_sf(aes(fill=mean),color="white",size=0.1)+
+  geom_sf(
+    aes(fill=mean),
+    color="white",
+    size=0.1
+    )+
   theme_void()
 
 count_graph + arr_rate_graph
@@ -160,14 +170,13 @@ data_sfplot_byTract <- function(
     county = county_fips,
     geometry = T,
     year = numeric_year
-          )
+    )
   
   # have a readable map title
   split_str <- str_split(data$NAME,",")
   state_name <- split_str[[1]][3]
   county_name <- split_str[[1]][2]
-
-  title_name = paste0(
+  title_name <- paste0(
     variable_name,
     " by Tract in", 
     county_name,
