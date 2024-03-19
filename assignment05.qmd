@@ -72,6 +72,8 @@ ggplot()+
     )
 
 ```
+This is the geographical distribution of homicides in Chicago. In most places, arrested cases and unarrested cases mix together.
+
 
 ## Load Census Tracts
 
@@ -133,6 +135,7 @@ arr_rate_graph <- chicago_merged_agg %>%
 count_graph + arr_rate_graph
 
 ```
+This is a map of Chicago. The place north-west to downtown Chicago has higher number of homicide cases, but the arrest rate there is not high. The arrest rate in Chicago is not evenly distributed.
 
 ## Iterating API pulls and map creation
 ### Create a function to get data from ACS and create a choropleth map
