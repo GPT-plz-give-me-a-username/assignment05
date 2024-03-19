@@ -165,11 +165,11 @@ data_sfplot_byTract <- function(
   #get data
   data <- get_acs(
     geography = "tract",
+    year = numeric_year,
     variables = census_variable_code,
     state = state_fips,
     county = county_fips,
-    geometry = T,
-    year = numeric_year
+    geometry = T
     )
   
   # have a readable map title
