@@ -173,9 +173,8 @@ data_sfplot_byTract <- function(
     )
   
   # have a readable map title
-  split_str <- str_split(data$NAME[1],",")
-  state_name <- split_str[3]
-  county_name <- split_str[2]
+  state_name <- str_split_i(data$NAME[1],",",3)
+  county_name <- str_split_i(data$NAME[1],",",2)
   title_name <- paste0(
     variable_name,
     " by Tract in", 
@@ -204,7 +203,8 @@ data_sfplot_byTract <- function(
 ```{r}
 # create vectors
 iteration_df <- data.frame(
-  numeric_year = c(2020,2020,2020,2020,2020),
+  numeric_year = c(2020,2020,2020,2020,2020), 
+  #use 2020 because the dataset measures the median income of the year prior to the year when the survey is conducted.
   census_variable_code = c(
     "B19013_001",
     "B19013_001",
@@ -223,4 +223,3 @@ iteration_df <- data.frame(
 pmap_df(iteration_df, .f = data_sfplot_byTract)
 
 ```
-

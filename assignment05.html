@@ -3212,30 +3212,29 @@ vertical-align: -.125em;
 <span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  <span class="co"># have a readable map title</span></span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  split_str <span class="ot">&lt;-</span> <span class="fu">str_split</span>(data<span class="sc">$</span>NAME[<span class="dv">1</span>],<span class="st">&quot;,&quot;</span>)</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>  state_name <span class="ot">&lt;-</span> split_str[<span class="dv">3</span>]</span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>  county_name <span class="ot">&lt;-</span> split_str[<span class="dv">2</span>]</span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>  title_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    variable_name,</span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot; by Tract in&quot;</span>, </span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    county_name,</span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;,&quot;</span>,</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    state_name)</span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>  <span class="co">#create a plot</span></span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  plot <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>estimate))<span class="sc">+</span></span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>()<span class="sc">+</span></span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">title=</span>title_name,</span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>variable_name)</span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>  <span class="co"># save the plot</span></span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>  file_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;images/&quot;</span>,title_name,<span class="st">&quot;.jpg&quot;</span>)</span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave</span>(file_name,<span class="at">plot=</span>plot)</span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Sys.sleep</span>(<span class="fl">0.5</span>)</span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  state_name <span class="ot">&lt;-</span> <span class="fu">str_split_i</span>(data<span class="sc">$</span>NAME[<span class="dv">1</span>],<span class="st">&quot;,&quot;</span>,<span class="dv">3</span>)</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>  county_name <span class="ot">&lt;-</span> <span class="fu">str_split_i</span>(data<span class="sc">$</span>NAME[<span class="dv">1</span>],<span class="st">&quot;,&quot;</span>,<span class="dv">2</span>)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>  title_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    variable_name,</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot; by Tract in&quot;</span>, </span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    county_name,</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;,&quot;</span>,</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    state_name)</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>  <span class="co">#create a plot</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>  plot <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>estimate))<span class="sc">+</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>()<span class="sc">+</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">title=</span>title_name,</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill=</span>variable_name)</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>  <span class="co"># save the plot</span></span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>  file_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;images/&quot;</span>,title_name,<span class="st">&quot;.jpg&quot;</span>)</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave</span>(file_name,<span class="at">plot=</span>plot)</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Sys.sleep</span>(<span class="fl">0.5</span>)</span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -3244,23 +3243,24 @@ vertical-align: -.125em;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create vectors</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>iteration_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">numeric_year =</span> <span class="fu">c</span>(<span class="dv">2020</span>,<span class="dv">2020</span>,<span class="dv">2020</span>,<span class="dv">2020</span>,<span class="dv">2020</span>),</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">census_variable_code =</span> <span class="fu">c</span>(</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;B19013_001&quot;</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">numeric_year =</span> <span class="fu">c</span>(<span class="dv">2020</span>,<span class="dv">2020</span>,<span class="dv">2020</span>,<span class="dv">2020</span>,<span class="dv">2020</span>), </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#use 2020 because the dataset measures the median income of the year prior to the year when the survey is conducted.</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">census_variable_code =</span> <span class="fu">c</span>(</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;B19013_001&quot;</span>,</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;B19013_001&quot;</span>,</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;B19013_001&quot;</span>,</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;B19013_001&quot;</span>),</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">variable_name =</span> <span class="fu">c</span>(</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Median Household Income in 2019&quot;</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;B19013_001&quot;</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;B19013_001&quot;</span>),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">variable_name =</span> <span class="fu">c</span>(</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Median Household Income in 2019&quot;</span>,</span>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Median Household Income in 2019&quot;</span>,</span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Median Household Income in 2019&quot;</span>,</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Median Household Income in 2019&quot;</span>),</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">state_fips =</span> <span class="fu">c</span>(<span class="st">&quot;51&quot;</span>,<span class="st">&quot;51&quot;</span>,<span class="st">&quot;51&quot;</span>,<span class="st">&quot;51&quot;</span>,<span class="st">&quot;51&quot;</span>),</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">county_fips =</span> <span class="fu">c</span>(<span class="st">&quot;013&quot;</span>, <span class="st">&quot;510&quot;</span>, <span class="st">&quot;610&quot;</span>,<span class="st">&quot;710&quot;</span>,<span class="st">&quot;730&quot;</span>))</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">pmap_df</span>(iteration_df, <span class="at">.f =</span> data_sfplot_byTract)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Median Household Income in 2019&quot;</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Median Household Income in 2019&quot;</span>),</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">state_fips =</span> <span class="fu">c</span>(<span class="st">&quot;51&quot;</span>,<span class="st">&quot;51&quot;</span>,<span class="st">&quot;51&quot;</span>,<span class="st">&quot;51&quot;</span>,<span class="st">&quot;51&quot;</span>),</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">county_fips =</span> <span class="fu">c</span>(<span class="st">&quot;013&quot;</span>, <span class="st">&quot;510&quot;</span>, <span class="st">&quot;610&quot;</span>,<span class="st">&quot;710&quot;</span>,<span class="st">&quot;730&quot;</span>))</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="fu">pmap_df</span>(iteration_df, <span class="at">.f =</span> data_sfplot_byTract)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   |                                                                            
@@ -3268,117 +3268,69 @@ vertical-align: -.125em;
   |                                                                            
   |=                                                                     |   1%
   |                                                                            
-  |==                                                                    |   2%
+  |=                                                                     |   2%
   |                                                                            
   |==                                                                    |   3%
   |                                                                            
   |===                                                                   |   4%
   |                                                                            
-  |===                                                                   |   5%
-  |                                                                            
   |====                                                                  |   5%
   |                                                                            
   |====                                                                  |   6%
   |                                                                            
-  |=====                                                                 |   7%
+  |=====                                                                 |   6%
   |                                                                            
-  |=====                                                                 |   8%
+  |=====                                                                 |   7%
   |                                                                            
   |======                                                                |   9%
   |                                                                            
-  |=======                                                               |   9%
+  |=========                                                             |  12%
   |                                                                            
-  |========                                                              |  12%
+  |=========                                                             |  13%
   |                                                                            
-  |==========                                                            |  15%
-  |                                                                            
-  |============                                                          |  17%
-  |                                                                            
-  |=============                                                         |  18%
+  |=========                                                             |  14%
   |                                                                            
   |=============                                                         |  19%
   |                                                                            
-  |===============                                                       |  21%
-  |                                                                            
-  |================                                                      |  23%
-  |                                                                            
-  |================                                                      |  24%
-  |                                                                            
   |==================                                                    |  25%
   |                                                                            
-  |===================                                                   |  28%
+  |====================                                                  |  28%
   |                                                                            
-  |=====================                                                 |  29%
+  |====================                                                  |  29%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |======================                                                |  31%
   |                                                                            
   |======================                                                |  32%
   |                                                                            
-  |=======================                                               |  33%
+  |========================                                              |  34%
   |                                                                            
-  |=========================                                             |  36%
+  |=========================                                             |  35%
   |                                                                            
   |===========================                                           |  38%
   |                                                                            
-  |============================                                          |  40%
+  |=============================                                         |  41%
   |                                                                            
-  |==============================                                        |  42%
-  |                                                                            
-  |===============================                                       |  44%
+  |================================                                      |  45%
   |                                                                            
   |================================                                      |  46%
   |                                                                            
-  |==================================                                    |  48%
-  |                                                                            
-  |===================================                                   |  50%
-  |                                                                            
-  |====================================                                  |  52%
-  |                                                                            
-  |======================================                                |  54%
-  |                                                                            
-  |=======================================                               |  56%
-  |                                                                            
   |=========================================                             |  58%
-  |                                                                            
-  |=========================================                             |  59%
   |                                                                            
   |==========================================                            |  60%
   |                                                                            
-  |============================================                          |  63%
-  |                                                                            
-  |=============================================                         |  64%
+  |==============================================                        |  66%
   |                                                                            
   |===============================================                       |  67%
   |                                                                            
-  |================================================                      |  69%
+  |====================================================                  |  74%
   |                                                                            
-  |=================================================                     |  71%
+  |=======================================================               |  79%
   |                                                                            
-  |===================================================                   |  73%
+  |===================================================================== |  99%
   |                                                                            
-  |====================================================                  |  75%
-  |                                                                            
-  |======================================================                |  77%
-  |                                                                            
-  |=======================================================               |  78%
-  |                                                                            
-  |========================================================              |  81%
-  |                                                                            
-  |==========================================================            |  82%
-  |                                                                            
-  |===========================================================           |  85%
-  |                                                                            
-  |=============================================================         |  86%
-  |                                                                            
-  |==============================================================        |  89%
-  |                                                                            
-  |===============================================================       |  90%
-  |                                                                            
-  |=================================================================     |  93%
-  |                                                                            
-  |==================================================================    |  94%
-  |                                                                            
-  |====================================================================  |  97%
-  |                                                                            
-  |===================================================================== |  98%
+  |======================================================================|  99%
   |                                                                            
   |======================================================================| 100%</code></pre>
 </div>
