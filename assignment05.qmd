@@ -172,7 +172,8 @@ data_sfplot_byTract <- function(
     variables = census_variable_code,
     state = state_fips,
     county = county_fips,
-    geometry = T
+    geometry = T,
+    progress = F
     )
   
   # have a readable map title
@@ -223,6 +224,6 @@ iteration_df <- data.frame(
   state_fips = c("51","51","51","51","51"),
   county_fips = c("013", "510", "610","710","730"))
 
-pmap_df(iteration_df, .f = data_sfplot_byTract)
+pwalk(iteration_df, .f = data_sfplot_byTract)
 
 ```
